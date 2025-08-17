@@ -1,0 +1,37 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql"; url = env("DATABASE_URL") }
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  wallets   Wallet[]
+  createdAt DateTime @default(now())
+}
+
+model Wallet {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  balance   Int      @default(0) // cents
+  createdAt DateTime @default(now())
+}
+
+model Transfer {
+  id              String   @id @default(uuid())
+  fromWalletId    String
+  toWalletId      String
+  amount          Int
+  idempotencyKey  String
+  status          String   @default("COMPLETED")
+  createdAt       DateTime @default(now())
+  @@unique([idempotencyKey]) // idempotent
+}
+
+model WebhookEvent {
+  id        String   @id @default(uuid())
+  type      String
+  payload   Json
+  signature String
+  createdAt DateTime @default(now())
+}
