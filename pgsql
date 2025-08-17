@@ -1,0 +1,24 @@
+payments-api/
+  .github/workflows/ci.yml
+  .env.example
+  docker-compose.yml
+  Dockerfile
+  package.json
+  tsconfig.json
+  prisma/
+    schema.prisma
+  src/
+    app.ts
+    index.ts
+    routes/
+      health.ts
+      auth.ts
+      wallets.ts
+      transfers.ts
+      webhooks.ts
+    lib/
+      db.ts
+      auth.ts
+      idempotency.ts
+      errors.ts
+  README.md
